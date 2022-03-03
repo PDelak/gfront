@@ -1,0 +1,27 @@
+package main
+import "fmt"
+
+import "gfront/runtime"
+
+type FileHandle struct
+{
+  runtime.OwningType 
+  id int
+}
+
+func main() {
+   {
+   	src := NewFileHandle(1)
+   	dst := NewFileHandle(2)
+   	fmt.Printf("src : %d, %d\n", src.id, src.OwningType.Owner)
+   	fmt.Printf("dst : %d, %d\n", dst.id, dst.OwningType.Owner)
+   }
+   {
+   	src := NewFileHandle(1)
+   	alias := src
+   	dst := Move(&src)
+   	fmt.Printf("alias : %d, %d\n", alias.id, alias.OwningType.Owner)
+   	fmt.Printf("src : %d, %d\n", src.id, src.OwningType.Owner)
+   	fmt.Printf("dst : %d, %d\n", dst.id, dst.OwningType.Owner)
+   }
+}
