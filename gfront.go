@@ -1,6 +1,7 @@
 package main
 
 import "gfront/runtime"
+import "gfront/parser"
 
 type FileHandle struct
 {
@@ -10,5 +11,6 @@ type FileHandle struct
 
 
 func main() {
+  parser.Parse("template")
 }
          

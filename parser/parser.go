@@ -6,9 +6,9 @@ import("go/ast"
        "fmt"
 )
 
-func main() {
+func Parse(file string) {
         fset := token.NewFileSet()
-        node, err := parser.ParseFile(fset, "model.go", nil, parser.ParseComments)
+        node, err := parser.ParseFile(fset, file, nil, parser.ParseComments)
         if err != nil {
         }
 
