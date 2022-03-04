@@ -9,7 +9,7 @@ func NewFileHandle(id int) FileHandle {
   return FileHandle{runtime.OwningType{true}, id}
 }
 
-func Move(src *FileHandle) FileHandle {
+func MoveFileHandle(src *FileHandle) FileHandle {
   src.Owner = false
   var res = *src
   res.Owner = true
@@ -31,4 +31,31 @@ func ScopeExit(res runtime.UniqueLifecycle) {
     res.Destructor()
   }
 }
+
+func NewNode(value int, node* Node) Node {
+  fmt.Printf("Node %d\n", value)
+  return Node{runtime.OwningType{true}, value, node}
+}
+
+func NewNodeHeap(value int, node* Node) *Node {
+  fmt.Printf("Node %d\n", value)
+  return &Node{runtime.OwningType{true}, value, node}
+}
+
+func MoveNode(src *Node) Node {
+  src.Owner = false
+  var res = *src
+  res.Owner = true
+  return res
+}
+
+func (handle Node) Destructor() {
+  handle.next = nil
+  fmt.Printf("release node %d %d\n", handle.value, handle.Owner)
+}
+
+func(handle Node) IsOwner() bool {
+  return handle.Owner
+}
+
 
