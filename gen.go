@@ -8,19 +8,17 @@ func NewFileHandle(id int) FileHandle {
 	return FileHandle{runtime.OwningType{true}, id}
 }
 
-func MoveFileHandle(src *FileHandle) FileHandle {
+func MoveFileHandle(src *FileHandle, dst *FileHandle) {
 	src.Owner = false
-	var res = *src
-	res.Owner = true
-	return res
+	dst.Owner = true
 }
 
-func (handle FileHandle) Destructor() {
+func (handle *FileHandle) Destructor() {
 	handle.id = 0
 	fmt.Printf("close file\n")
 }
 
-func (handle FileHandle) IsOwner() bool {
+func (handle *FileHandle) IsOwner() bool {
 	return handle.Owner
 }
 
@@ -40,15 +38,13 @@ func NewNodeHeap(value int, node *Node) *Node {
 	return &Node{runtime.OwningType{true}, value, node}
 }
 
-func MoveNode(src *Node) Node {
+func MoveNode(src *Node, dst *Node) {
 	src.Owner = false
-	var res = *src
-	res.Owner = true
-	return res
+	dst.Owner = true
 }
 
-func (handle Node) Destructor() {
-	handle.next = nil
+func (handle *Node) Destructor() {
+	handle = nil
 	fmt.Printf("release node %d %d\n", handle.value, handle.Owner)
 }
 

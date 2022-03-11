@@ -21,7 +21,8 @@ func pushFront(value int, node *Node) *Node {
 }
 
 func passNodeUniquely(node *Node) Node {
-	newNode := MoveNode(node)
+	var newNode Node
+	MoveNode(node, &newNode)
 	return newNode
 }
 
@@ -44,39 +45,42 @@ func testGen() {
 		dst := NewFileHandle(2)
 		fmt.Printf("src : %d, %d\n", src.id, src.OwningType.Owner)
 		fmt.Printf("dst : %d, %d\n", dst.id, dst.OwningType.Owner)
-		ScopeExit(src)
-		ScopeExit(dst)
+		ScopeExit(&src)
+		ScopeExit(&dst)
 	}
 	{
 		src := NewFileHandle(1)
+		var dst FileHandle
 		alias := src
-		dst := MoveFileHandle(&src)
+		MoveFileHandle(&src, &dst)
 		fmt.Printf("alias : %d, %d\n", alias.id, alias.OwningType.Owner)
 		fmt.Printf("src : %d, %d\n", src.id, src.OwningType.Owner)
 		fmt.Printf("dst : %d, %d\n", dst.id, dst.OwningType.Owner)
-		ScopeExit(src)
-		ScopeExit(dst)
+		ScopeExit(&src)
+		ScopeExit(&dst)
 	}
 	{
 		src := NewNode(1, nil)
 		alias := src
-		dst := MoveNode(&src)
+		var dst Node
+		MoveNode(&src, &dst)
 		fmt.Printf("alias : %d, %d\n", alias.value, alias.OwningType.Owner)
 		fmt.Printf("src : %d, %d\n", src.value, src.OwningType.Owner)
 		fmt.Printf("dst : %d, %d\n", dst.value, dst.OwningType.Owner)
-		ScopeExit(src)
-		ScopeExit(dst)
+		ScopeExit(&src)
+		ScopeExit(&dst)
 
 	}
 	{
 		src := NewNode(1, nil)
-		dst := MoveNode(&src)
+		var dst Node
+		MoveNode(&src, &dst)
 		anotherNode := passNodeUniquely(&dst)
 		fmt.Printf("src : %d, %d\n", src.value, src.OwningType.Owner)
 		fmt.Printf("dst : %d, %d\n", dst.value, dst.OwningType.Owner)
 		fmt.Printf("anotherNode : %d, %d\n", anotherNode.value, anotherNode.OwningType.Owner)
-		ScopeExit(src)
-		ScopeExit(dst)
+		ScopeExit(&src)
+		ScopeExit(&dst)
 	}
 	{
 		head1 := pushFront(1, nil)
@@ -89,7 +93,8 @@ func testGen() {
 	}
 	{
 		src := NewNodeHeap(5, nil)
-		dst := MoveNode(src)
+		var dst *Node
+		MoveNode(src, dst)
 		fmt.Printf("src : %d, %d\n", src.value, src.OwningType.Owner)
 		fmt.Printf("dst : %d, %d\n", dst.value, dst.OwningType.Owner)
 		ScopeExit(src)
