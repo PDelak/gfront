@@ -93,7 +93,7 @@ func testGen() {
 	}
 	{
 		src := NewNodeHeap(5, nil)
-		var dst *Node
+		dst := src
 		MoveNode(src, dst)
 		fmt.Printf("src : %d, %d\n", src.value, src.OwningType.Owner)
 		fmt.Printf("dst : %d, %d\n", dst.value, dst.OwningType.Owner)

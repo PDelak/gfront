@@ -44,7 +44,6 @@ func MoveNode(src *Node, dst *Node) {
 }
 
 func (handle *Node) Destructor() {
-	handle = nil
 	fmt.Printf("release node %d %d\n", handle.value, handle.Owner)
 }
 
